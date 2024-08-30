@@ -1,15 +1,21 @@
-require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const sequelize = require('./config/db');
-
-const userRoutes = require('./routes/userRoutes'); // Asegúrate de que esta ruta es correcta
-const taskRoutes = require('./routes/taskRoutes'); // Asegúrate de que esta ruta es correcta
+const userRoutes = require('./routes/authRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 app.use(express.json());
 
+// Configurar CORS
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', // Aquí pones el origen de tu frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Usar los enrutadores como middleware
-app.use('/api/users', userRoutes);
+app.use('/api/auth', userRoutes);
 app.use('/api/tasks', taskRoutes);
 
 sequelize.sync().then(() => {
