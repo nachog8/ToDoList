@@ -18,6 +18,11 @@ app.use(cors({
 app.use('/api/auth', userRoutes);
 app.use('/api/tasks', taskRoutes);
 
+app.post('/api/tasks', (req, res) => {
+    // Lógica para manejar la solicitud POST
+    res.status(201).json({ message: 'Tarea creada' });
+});
+
 sequelize.sync().then(() => {
     app.listen(process.env.PORT || 3000, () => {
         console.log(`Server running on port ${process.env.PORT || 3000}`);
